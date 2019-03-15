@@ -10,7 +10,7 @@ fn main() {
     println!("cargo:rustc-link-lib=bch");
 
     let bindings = bindgen::Builder::default()
-        .header("wrapper.h")
+        .header("src/bch/bch.h")
         .generate()
         .expect("Unable to generate bindings");
 
