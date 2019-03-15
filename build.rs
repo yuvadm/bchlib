@@ -1,4 +1,5 @@
 extern crate bindgen;
+extern crate cc;
 
 use std::env;
 use std::path::PathBuf;
@@ -15,4 +16,9 @@ fn main() {
     bindings
         .write_to_file(out_path.join("bindings.rs"))
         .expect("Couldn't write bindings!");
+
+    cc::Build::new()
+        .file("src/bch/bch.c")
+        .include("src/bch/bch.h")
+        .compile("bch");
 }

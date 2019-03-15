@@ -1,2 +1,1 @@
-#include <stdint.h>
-#include "bch.h"
+#include "src/bch/bch.h"
