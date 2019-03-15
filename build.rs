@@ -5,6 +5,8 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
+    cc::Build::new().file("src/bch/bch.c");
+
     println!("cargo:rustc-link-lib=bch");
 
     let bindings = bindgen::Builder::default()
@@ -16,9 +18,4 @@ fn main() {
     bindings
         .write_to_file(out_path.join("bindings.rs"))
         .expect("Couldn't write bindings!");
-
-    cc::Build::new()
-        .file("src/bch/bch.c")
-        .include("src/bch/bch.h")
-        .compile("bch");
 }
