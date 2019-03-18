@@ -5,9 +5,7 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-    cc::Build::new().file("src/bch/bch.c");
-
-    println!("cargo:rustc-link-lib=bch");
+    cc::Build::new().file("src/bch/bch.c").compile("bch");
 
     let bindings = bindgen::Builder::default()
         .header("src/bch/bch.h")

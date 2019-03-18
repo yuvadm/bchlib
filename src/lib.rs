@@ -6,8 +6,12 @@ include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn it_works() {
-        assert_eq!(2 + 2, 4);
+        unsafe {
+            let _c = init_bch(5, 2, 37);
+        }
     }
 }
