@@ -24,6 +24,8 @@ $ cargo build
 $ cargo test
 ```
 
+Note that due to usage of `bindgen` you will need `clang` to be installed on your system.
+
 ## License
 
 [GPLv2](LICENSE.md)
