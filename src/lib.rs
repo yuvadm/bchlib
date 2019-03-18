@@ -1,6 +1,24 @@
+pub struct GfPoly {
 
-pub struct BCH {
+}
+
+pub struct BCH<'a> {
     m: u32,
+    n: u32,
+    t: u32,
+    ecc_bits: u32,
+    ecc_bytes: u32,
+
+    a_pow_tab: u16,
+    a_log_tab: u16,
+    mod8_tab: u32,
+    ecc_buf: u32,
+    ecc_buf2: u32,
+    xi_tab: u32,
+    syn: u32,
+    cache: u32,
+    elp: GfPoly,
+    poly_2t: GfPoly,
 }
 
 impl BCH {
