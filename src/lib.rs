@@ -1,8 +1,17 @@
-extern crate bchlib_sys as ffi;
 
-pub fn init(m:i32, t:i32, poly: u32) {
-    unsafe {
-        let bch = ffi::init_bch(m, t, poly);
+pub struct BCH {
+    n: u32,
+}
+
+impl BCH {
+    pub fn new(n: u32) -> BCH {
+        BCH {
+            n
+        }
+    }
+
+    pub fn decode(self) -> u32{
+        return self.n
     }
 }
 
@@ -12,6 +21,7 @@ mod tests {
 
     #[test]
     fn it_works() {
-        init();
+        let bch = BCH::new(3);
+        assert_eq!(bch.decode(), 3);
     }
 }
