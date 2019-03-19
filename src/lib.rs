@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub, Mul};
+use std::ops::{Add, Sub, Div};
 
 pub struct BCH {
     m: i16,
@@ -8,9 +8,13 @@ pub struct BCH {
     n:i16,
 }
 
-fn div_round_up(a: i16, b: i16) -> i16 {
-    (a + b - 1) / b
+pub fn div_round_up<T>(a: T, b: T) -> T
+where
+    T: Copy + Add<Output = T> + Sub<Output = T> + Div<Output = T> + From<u8>,
+{
+    (a + b - T::from(1)) / b
 }
+
 
 impl BCH {
 
