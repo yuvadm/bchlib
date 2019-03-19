@@ -1,9 +1,15 @@
-pub struct GfPoly {
+use std::ops::{Add, Sub, Mul};
 
 pub struct BCH {
     m: i16,
     t: i16,
-    prim_poly: u16
+    prim_poly: u16,
+
+    n:i16,
+}
+
+fn div_round_up(a: i16, b: i16) -> i16 {
+    (a + b - 1) / b
 }
 
 impl BCH {
@@ -21,7 +27,6 @@ impl BCH {
     pub fn new(m: i16, t: i16, prim_poly: u16) -> Option<BCH> {
         let err: u16 = 0;
         let i: u16;
-        let words: u16;
         let genpoly: u32;
 
         const MIN_M: i16 = 5;
@@ -32,11 +37,18 @@ impl BCH {
             return None
         }
 
-        Some(BCH {
+        let n = (1 << m) - 1;
+        let words = div_round_up(m * t, 32);
+        let ecc_bytes = div_round_up(m * t, 8);
+
+        let bch = BCH {
             m,
             t,
-            prim_poly
-        })
+            prim_poly,
+            n
+        };
+
+        Some(bch)
     }
 
     pub fn decode(self) -> i16{
@@ -61,4 +73,5 @@ mod tests {
         let bch = BCH::new(16, 0, 0);
         assert_eq!(bch.is_none(), true);
     }
+
 }
