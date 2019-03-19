@@ -1,35 +1,31 @@
 pub struct GfPoly {
 
-}
-
-pub struct BCH<'a> {
-    m: u32,
-    n: u32,
-    t: u32,
-    ecc_bits: u32,
-    ecc_bytes: u32,
-
-    a_pow_tab: u16,
-    a_log_tab: u16,
-    mod8_tab: u32,
-    ecc_buf: u32,
-    ecc_buf2: u32,
-    xi_tab: u32,
-    syn: u32,
-    cache: u32,
-    elp: GfPoly,
-    poly_2t: GfPoly,
+pub struct BCH {
+    m: i16,
+    t: i16,
+    prim_poly: u16
 }
 
 impl BCH {
-    pub fn new(m: u32, _t: u32, _prim_poly: u32) -> Option<BCH> {
-        let _err: u32 = 0;
-        let _i: u32;
-        let _words: u32;
-        let _genpoly: u32;
 
-        const MIN_M: u32 = 5;
-        const MAX_M: u32 = 15;
+    pub fn build_gf_tables(self) {
+        let i: u16 = 1;
+        let x: u16 = 1;
+        //const k: u16 = 1 << deg(self.po);
+    }
+
+    /// Create a new BCH object initialized with
+    /// `m` - the Galois field order, must be in the 5-15 range
+    /// `t` - maximum error correction capability in bits
+    /// `prim_poly` - user-provided primitive polynomial
+    pub fn new(m: i16, t: i16, prim_poly: u16) -> Option<BCH> {
+        let err: u16 = 0;
+        let i: u16;
+        let words: u16;
+        let genpoly: u32;
+
+        const MIN_M: i16 = 5;
+        const MAX_M: i16 = 15;
 
         if (m < MIN_M) || (m > MAX_M) {
             // `m` values must be between5 and 15 in this implementation
@@ -37,11 +33,13 @@ impl BCH {
         }
 
         Some(BCH {
-            m
+            m,
+            t,
+            prim_poly
         })
     }
 
-    pub fn decode(self) -> u32{
+    pub fn decode(self) -> i16{
         return self.m
     }
 }
