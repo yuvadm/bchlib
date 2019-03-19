@@ -1,11 +1,22 @@
 extern crate bchlib_sys as ffi;
 
+use std::ptr::null;
+
 struct BCH(ffi::bch_control);
 
 impl BCH {
     fn init(m: i32, t: i32, poly: u32) -> BCH {
         let bch = unsafe { *ffi::init_bch(m, t, poly) };
         BCH(bch)
+    }
+
+    fn decode(&mut self, msg: &[u8], ecc: &[u8], errloc: &mut[u32]) -> i32 {
+        let err = unsafe {
+            ffi::decode_bch(
+                &mut self.0, msg.as_ptr(), msg.len() as u32,
+                null(), null(), null(), errloc.as_mut_ptr())
+        };
+        err
     }
 }
 
@@ -15,7 +26,24 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
-        let bch = BCH::init(5, 2, 0);
+    fn test_decode() {
+        let mut bch = BCH::init(5, 2, 37);
+        let msg: [u8; 11] = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let ecc: [u8; 5] = [0x11, 0x10, 0x11, 0x01, 0x00];
+        let mut errloc: [u32; 2] = [0, 0];
+        bch.decode(&msg, &ecc, &mut errloc);
+        assert_eq!(errloc[0], 0);
+        assert_eq!(errloc[1], 0);
+    }
+
+    #[test]
+    fn test_decode_err() {
+        let mut bch = BCH::init(5, 2, 37);
+        let msg: [u8; 11] = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let ecc: [u8; 5] = [0x11, 0x10, 0x11, 0x01, 0x01];
+        let mut errloc: [u32; 2] = [0, 0];
+        bch.decode(&msg, &ecc, &mut errloc);
+        assert_eq!(errloc[0], 0);
+        assert_eq!(errloc[1], 0);
     }
 }
