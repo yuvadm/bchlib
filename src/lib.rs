@@ -44,4 +44,15 @@ mod tests {
         assert_eq!(errloc[0], 30);
         assert_eq!(errloc[1], 0);
     }
+
+    #[test]
+    fn test_sync_codeword() {
+        let mut bch = BCH::init(5, 2, 1897);
+        let msg: [u8; 21] = [0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0];
+        let ecc: [u8; 10] = [1, 0, 1, 1, 1, 0, 1, 1, 0, 0];
+        let mut errloc: [u32; 2] = [0, 0];
+        bch.decode(&msg, &ecc, &mut errloc);
+        assert_eq!(errloc[0], 0);
+        assert_eq!(errloc[1], 0);
+    }
 }
