@@ -1,13 +1,21 @@
 extern crate bchlib_sys as ffi;
 
-use std::ptr::null;
+use std::ptr;
 
+#[derive(Debug)]
 struct BCH(ffi::bch_control);
 
 impl BCH {
-    fn init(m: i32, t: i32, poly: u32) -> BCH {
-        let bch = unsafe { *ffi::init_bch(m, t, poly) };
-        BCH(bch)
+    fn init(m: i32, t: i32, poly: u32) -> Result<BCH, &'static str> {
+        unsafe {
+            let bch = ffi::init_bch(m, t, poly);
+            if bch == ptr::null_mut() {
+                Err("Invalid BCH params")
+            }
+            else {
+                Ok(BCH(*bch))
+            }
+        }
     }
 
     fn decode(&mut self, msg: &[u8], ecc: &[u8], errloc: &mut[u32]) -> i32 {
@@ -25,7 +33,7 @@ mod tests {
 
     #[test]
     fn test_decode() {
-        let mut bch = BCH::init(5, 2, 37);
+        let mut bch = BCH::init(5, 2, 37).unwrap();
         let msg: [u8; 21] = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let ecc: [u8; 10] = [1, 1, 1, 0, 1, 1, 0, 1, 0, 0];
         let mut errloc: [u32; 2] = [0, 0];
@@ -36,7 +44,7 @@ mod tests {
 
     #[test]
     fn test_decode_err() {
-        let mut bch = BCH::init(5, 2, 37);
+        let mut bch = BCH::init(5, 2, 37).unwrap();
         let msg: [u8; 21] = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let ecc: [u8; 10] = [1, 1, 1, 0, 1, 1, 0, 1, 0, 1];
         let mut errloc: [u32; 2] = [0, 0];
@@ -47,12 +55,18 @@ mod tests {
 
     #[test]
     fn test_sync_codeword() {
-        let mut bch = BCH::init(5, 2, 0);
+        let mut bch = BCH::init(5, 2, 0).unwrap();
         let msg: [u8; 21] = [0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0];
         let ecc: [u8; 10] = [1, 0, 1, 1, 1, 0, 1, 1, 0, 0];
         let mut errloc: [u32; 2] = [0, 0];
         bch.decode(&msg, &ecc, &mut errloc);
         assert_eq!(errloc[0], 0);
         assert_eq!(errloc[1], 0);
+    }
+
+    #[test]
+    fn test_init_fail() {
+        let bch = BCH::init(5, 2, 1897);
+        assert_eq!(bch.is_err(), true);
     }
 }
