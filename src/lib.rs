@@ -47,7 +47,7 @@ mod tests {
 
     #[test]
     fn test_sync_codeword() {
-        let mut bch = BCH::init(5, 2, 1897);
+        let mut bch = BCH::init(5, 2, 0);
         let msg: [u8; 21] = [0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0];
         let ecc: [u8; 10] = [1, 0, 1, 1, 1, 0, 1, 1, 0, 0];
         let mut errloc: [u32; 2] = [0, 0];
