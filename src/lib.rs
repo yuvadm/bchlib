@@ -3,14 +3,14 @@ extern crate bchlib_sys as ffi;
 use std::ptr;
 
 #[derive(Debug)]
-struct BCH(ffi::bch_control);
+pub struct BCH(ffi::bch_control);
 
 impl BCH {
-    fn init(m: i32, t: i32) -> Result<BCH, &'static str> {
+    pub fn init(m: i32, t: i32) -> Result<BCH, &'static str> {
         BCH::init_with_poly(m, t, 0)
     }
 
-    fn init_with_poly(m: i32, t: i32, poly: u32) -> Result<BCH, &'static str> {
+    pub fn init_with_poly(m: i32, t: i32, poly: u32) -> Result<BCH, &'static str> {
         unsafe {
             let bch = ffi::init_bch(m, t, poly);
             if bch == ptr::null_mut() {
@@ -22,7 +22,7 @@ impl BCH {
         }
     }
 
-    fn decode(&mut self, msg: &[u8], ecc: &[u8], errloc: &mut[u32]) -> i32 {
+    pub fn decode(&mut self, msg: &[u8], ecc: &[u8], errloc: &mut[u32]) -> i32 {
         let err = unsafe {
             ffi::decodebits_bch(&mut self.0, msg.as_ptr(), ecc.as_ptr(), errloc.as_mut_ptr())
         };
