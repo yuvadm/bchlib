@@ -33,7 +33,7 @@ mod tests {
 
     #[test]
     fn test_decode() {
-        let mut bch = BCH::init(5, 2, 37).unwrap();
+        let mut bch = BCH::init(5, 2, 0).unwrap();
         let msg: [u8; 21] = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let ecc: [u8; 10] = [1, 1, 1, 0, 1, 1, 0, 1, 0, 0];
         let mut errloc: [u32; 2] = [0, 0];
@@ -44,7 +44,7 @@ mod tests {
 
     #[test]
     fn test_decode_err() {
-        let mut bch = BCH::init(5, 2, 37).unwrap();
+        let mut bch = BCH::init(5, 2, 0).unwrap();
         let msg: [u8; 21] = [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let ecc: [u8; 10] = [1, 1, 1, 0, 1, 1, 0, 1, 0, 0];
         let mut errloc: [u32; 2] = [0, 0];
