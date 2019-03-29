@@ -45,11 +45,11 @@ mod tests {
     #[test]
     fn test_decode_err() {
         let mut bch = BCH::init(5, 2, 37).unwrap();
-        let msg: [u8; 21] = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        let ecc: [u8; 10] = [1, 1, 1, 0, 1, 1, 0, 1, 0, 1];
+        let msg: [u8; 21] = [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let ecc: [u8; 10] = [1, 1, 1, 0, 1, 1, 0, 1, 0, 0];
         let mut errloc: [u32; 2] = [0, 0];
         bch.decode(&msg, &ecc, &mut errloc);
-        assert_eq!(errloc[0], 30);
+        assert_eq!(errloc[0], 9);
         assert_eq!(errloc[1], 0);
     }
 
