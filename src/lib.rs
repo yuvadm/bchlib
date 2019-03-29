@@ -6,7 +6,11 @@ use std::ptr;
 struct BCH(ffi::bch_control);
 
 impl BCH {
-    fn init(m: i32, t: i32, poly: u32) -> Result<BCH, &'static str> {
+    fn init(m: i32, t: i32) -> Result<BCH, &'static str> {
+        BCH::init_with_poly(m, t, 0)
+    }
+
+    fn init_with_poly(m: i32, t: i32, poly: u32) -> Result<BCH, &'static str> {
         unsafe {
             let bch = ffi::init_bch(m, t, poly);
             if bch == ptr::null_mut() {
@@ -33,7 +37,7 @@ mod tests {
 
     #[test]
     fn test_decode() {
-        let mut bch = BCH::init(5, 2, 0).unwrap();
+        let mut bch = BCH::init(5, 2).unwrap();
         let msg: [u8; 21] = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let ecc: [u8; 10] = [1, 1, 1, 0, 1, 1, 0, 1, 0, 0];
         let mut errloc: [u32; 2] = [0, 0];
@@ -44,7 +48,7 @@ mod tests {
 
     #[test]
     fn test_decode_err() {
-        let mut bch = BCH::init(5, 2, 0).unwrap();
+        let mut bch = BCH::init(5, 2).unwrap();
         let msg: [u8; 21] = [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let ecc: [u8; 10] = [1, 1, 1, 0, 1, 1, 0, 1, 0, 0];
         let mut errloc: [u32; 2] = [0, 0];
@@ -55,7 +59,7 @@ mod tests {
 
     #[test]
     fn test_sync_codeword() {
-        let mut bch = BCH::init(5, 2, 0).unwrap();
+        let mut bch = BCH::init(5, 2).unwrap();
         let msg: [u8; 21] = [0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0];
         let ecc: [u8; 10] = [1, 0, 1, 1, 1, 0, 1, 1, 0, 0];
         let mut errloc: [u32; 2] = [0, 0];
@@ -66,7 +70,7 @@ mod tests {
 
     #[test]
     fn test_init_fail() {
-        let bch = BCH::init(5, 2, 1897);
+        let bch = BCH::init_with_poly(5, 2, 1897);
         assert_eq!(bch.is_err(), true);
     }
 }
