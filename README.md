@@ -1,6 +1,6 @@
 # bchlib
 
-![Crates.io](https://img.shields.io/crates/v/bchlib.svg)
+[![Crates.io](https://img.shields.io/crates/v/bchlib.svg)](https://crates.io/crates/bchlib)
 
 Rust bindings for BCH encoding/decoding library, based on the [bch_codec](https://github.com/mborgerding/bch_codec) fork.
 

@@ -1,13 +1,13 @@
 [package]
 name = "bchlib"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Yuval Adam <_@yuv.al>"]
 edition = "2018"
 description = "Rust bindings for BCH encoding/decoding library, based on the bch_codec fork"
 license = "GPL-2.0"
-documentation = "https://docs.rs/bchlib-sys/"
+documentation = "https://docs.rs/bchlib/"
 homepage = "https://github.com/yuvadm/bchlib"
 repository = "https://github.com/yuvadm/bchlib"
 
 [dependencies]
-bchlib-sys = { version = "0.2.0", path = "../bchlib-sys" }
+bchlib-sys = { version = "0.2.1", path = "../bchlib-sys" }
