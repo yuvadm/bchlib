@@ -12,7 +12,7 @@ Add the library to your `Cargo.toml`:
 
 ```
 [dependencies]
-bchlib = "0.2.0"
+bchlib = "0.2.1"
 ```
 
 ## Build
