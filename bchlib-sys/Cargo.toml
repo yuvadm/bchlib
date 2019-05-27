@@ -1,11 +1,13 @@
 [package]
 name = "bchlib-sys"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Yuval Adam <_@yuv.al>"]
 edition = "2018"
 description = "Low-level Rust bindings for BCH encoding/decoding library, based on the bch_codec fork"
 license = "GPL-2.0"
-repository = "https://github.com/yuvadm/bchlib-sys"
+documentation = "https://docs.rs/bchlib/"
+homepage = "https://github.com/yuvadm/bchlib"
+repository = "https://github.com/yuvadm/bchlib"
 
 [build-dependencies]
 bindgen = "0.42.2"
